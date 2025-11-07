@@ -1,0 +1,16 @@
+- name: Actualizar el sistema y los paquetes
+  apt:
+    update_cache: yes
+    upgrade: yes
+    cache_valid_time: 3600
+
+- name: Añadir las entradas de la red interna al fichero /etc/hosts
+  blockinfile:
+    path: /etc/hosts
+    marker: "# {mark} ANSIBLE RED INTERNA"
+    block: |
+      10.0.0.2 mariadb.example.org
+      10.0.0.1 apache2.example.org
+    owner: root
+    group: root
+    mode: '0644'
