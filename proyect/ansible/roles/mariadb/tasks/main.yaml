@@ -21,6 +21,15 @@
     state: present
     login_unix_socket: /var/run/mysqld/mysqld.sock
 
+- name: Crear usuario phpmyadmin para el servidor web
+  mysql_user:
+    name: "{{ pma_user }}"
+    host: "10.0.0.1"
+    password: "{{ pma_pass }}"
+    priv: "{{ pma_db }}.*:ALL"
+    state: present
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
 - name: Copiar esquema SQL al servidor MariaDB
   ansible.builtin.copy:
     src: schema.sql

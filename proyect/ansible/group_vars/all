@@ -7,6 +7,8 @@ virtualhosts:
       documentroot: /var/www/example
       errorlog: error_example
       accesslog: acceses_example
+      alias: /phpmyadmin
+      directorio: /usr/share/phpmyadmin
 
 
 # Lista con los módulos que hay que activar
@@ -27,3 +29,11 @@ guestbook_db_host: "mariadb.example.org"
 guestbook_db_user: "guestbook_user"
 guestbook_db_password: "guestbook_pass"
 guestbook_db_name: "guestbook_db"
+
+pma_user: "phpmyadmin"
+pma_pass: "phpmyadmin"
+pma_path: "''"
+pma_db: "guestbook_db"
+pma_server: "10.0.0.2"
+pma_port: "3306"
+pma_type: "mysql"
