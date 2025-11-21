@@ -7,17 +7,14 @@ OpenTofu conserva el **modelo declarativo de infraestructura como código (IaC)*
 Su objetivo es mantener una herramienta **100 % libre y abierta**, compatible con el ecosistema de Terraform, pero sin restricciones de uso.
 
 
-## Ejemplos
+## CAMBIOS
 
-* Ejemplo 1: Máquina virtual conectada a la red "default"
-* Ejemplo 2: Máquina virtual con disco adicional
-* Ejemplo 3: Máquina virtual conectada a dos redes con DHCP
-* Ejemplo 4: Máquina virtual conectada a dos redes: una con DHCP y otra con direccionamiento estático
-* Ejemplo 5: Dos máquinas virtuales conectadas entre sí
-* Ejemplo 6: Generados de escenarios con módulos
+### PHPMYADMIN
 
-## Escenarios
+Funcionamiento:
+<img width="1919" height="773" alt="imagen" src="https://github.com/user-attachments/assets/7a488e95-b5c4-419e-af57-fb4cfa58bf31" />
 
-* Escenario 1: Servidor web y cliente para prácticas de servidores web.
-* Escenario 2: proxy y backend para prácticas de proxy inverso
-* Escenario 3: Servidor web con php y mariadb. Proyecto base para el proyecto 1 de PI.
+<img width="1919" height="672" alt="imagen" src="https://github.com/user-attachments/assets/15da070b-38b1-4c49-960d-9309fec7d075" />
+
+
+<img width="1919" height="648" alt="imagen" src="https://github.com/user-attachments/assets/11b24763-b03a-40b2-a646-63adfbdd7210" />
