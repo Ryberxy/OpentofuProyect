@@ -14,7 +14,8 @@ virtualhosts:
 # Lista con los módulos que hay que activar
 mods_enabled:
   - rewrite
-
+  - proxy_fcgi
+  - setenvif
 
 # URL del repositorio
 guestbook_repo_url: "https://github.com/josedom24/guestbook_php.git"

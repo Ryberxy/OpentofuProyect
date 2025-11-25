@@ -8,6 +8,12 @@
         AllowOverride All
         Require all granted
     	</Directory>
+
+	# Proxy hacia PHP-FPM remoto 
+	<FilesMatch "\.php$"> 
+	 SetHandler "proxy:fcgi://10.0.0.3:9000" 
+	</FilesMatch>	
+
 	# Alias para phpMyAdmin
     	Alias {{ item.datos.alias }} {{ item.datos.directorio }}
 

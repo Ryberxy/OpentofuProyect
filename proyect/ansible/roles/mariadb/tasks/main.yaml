@@ -24,7 +24,7 @@
 - name: Crear usuario phpmyadmin para el servidor web
   mysql_user:
     name: "{{ pma_user }}"
-    host: "10.0.0.1"
+    host: "10.0.0.3"
     password: "{{ pma_pass }}"
     priv: "{{ pma_db }}.*:ALL"
     state: present

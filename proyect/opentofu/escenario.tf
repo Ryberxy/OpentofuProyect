@@ -57,6 +57,22 @@ locals {
       network_config = "${path.module}/cloud-init/server1/network-config.yaml"
     }
 
+    sv_aplicaciones = {
+      name       = "sv_aplicaciones"
+      memory     = 1024
+      vcpu       = 1
+      base_image = "debian13-base.qcow2"
+
+      networks = [
+        { network_name = "red-externa", wait_for_lease = true },
+        { network_name = "red-conf" },
+        { network_name = "red-datos" }
+      ]
+
+      user_data      = "${path.module}/cloud-init/server3/user-data.yaml"
+      network_config = "${path.module}/cloud-init/server3/network-config.yaml"
+    }
+
     mariadb = {
       name       = "mariadb"
       memory     = 1024

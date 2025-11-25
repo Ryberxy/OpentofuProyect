@@ -1,5 +1,5 @@
 #cloud-config
-hostname: apache2
+hostname: sv_aplicaciones
 users:
   - name: debian
     sudo: ALL=(ALL) NOPASSWD:ALL

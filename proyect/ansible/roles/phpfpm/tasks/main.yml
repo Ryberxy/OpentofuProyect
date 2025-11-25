@@ -1,0 +1,52 @@
+- name: Instalar paquetes necesarios para el servidor de aplicaciones y poder acceder a las aplicaciones
+  apt:
+    name:
+      - php-fpm
+      - php-mysql
+      - phpmyadmin
+      - php-mbstring
+    state: present
+    update_cache: yes
+
+# Configuración para conectar a MariaDB remoto
+- name: Configurar phpMyAdmin para MariaDB remoto
+  template:
+    src: remote-db.php.j2
+    dest: /etc/phpmyadmin/conf.d/remote-db.php
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Crear DocumentRoot en el servidor de aplicaciones
+  ansible.builtin.file:
+    path: /{{item["datos"]["documentroot"]}}
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  with_items:
+    - "{{virtualhosts}}"
+
+- name: Copiar aplicación Guestbook al php-fpm
+  ansible.builtin.copy:
+    src: app/
+    dest: "/{{ base_web_path }}/"
+    owner: root
+    group: root
+    mode: '0644'
+    directory_mode: '0755'
+
+- name: Crear fichero de configuración config.php dentro de la aplicación
+  ansible.builtin.template:
+    src: config.php.j2
+    dest: "/{{ base_web_path }}/config.php"
+    owner: root
+    group: root
+
+- name: Reemplazar socket unix por socket tcp
+  ansible.builtin.lineinfile:
+    path: /etc/php/8.4/fpm/pool.d/www.conf
+    regexp: '^listen\s*='
+    line: 'listen = 10.0.0.3:9000'
+    backup: yes # Copia del fichero por si acaso
+  notify: restart php-fpm

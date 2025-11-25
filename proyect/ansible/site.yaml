@@ -13,3 +13,8 @@
   become: true
   roles:
    - role: mariadb
+
+- hosts: servidores_app
+  become: true
+  roles:
+    - role: phpfpm
