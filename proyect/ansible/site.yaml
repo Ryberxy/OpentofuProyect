@@ -1,3 +1,8 @@
+- hosts: servidores_web
+  become: true
+  roles:
+   - role: nat 
+
 - hosts: all
   become: true
   roles:

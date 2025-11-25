@@ -13,3 +13,4 @@ chpasswd:
     - name: ubuntu
       password: ubuntu
       type: text
+

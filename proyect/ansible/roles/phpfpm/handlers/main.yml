@@ -1,2 +1,5 @@
 - name: restart php-fpm
   service: name=php8.4-fpm state=restarted
+
+- name: aplicar netplan
+  command: netplan apply

@@ -1,0 +1,38 @@
+- name: Instalar iptables y iptables persistente
+  apt:
+    name:
+      - iptables
+      - iptables-persistent
+    state: present
+    update_cache: yes
+
+- name: Servicio para activar bit de forwarding
+  template:
+    src: forwarding.service.j2
+    dest: /etc/systemd/system/forwarding.service
+    mode: '0644'
+  notify:
+    - systemd
+    - forwarding
+
+- name: Crear archivo que guarda las reglas
+  template:
+    src: reglas.sh.j2
+    dest: /root/reglas.sh
+    mode: '0700'
+  notify: aplicar reglas  
+
+- name: Script que restaura las reglas
+  template:
+    src: iptables.sh.j2
+    dest: /usr/local/bin/iptables.sh
+    mode: '0755'
+
+- name: Servicio systemd que gestiona el guardado de reglas automático
+  template:
+    src: nat.service.j2
+    dest: /etc/systemd/system/NATworking.service
+    mode: '0644'
+  notify:
+    - systemd
+    - nat

@@ -1,2 +1,5 @@
 - name: restart mariadb
   service: name=mariadb state=restarted
+
+- name: aplicar netplan
+  command: netplan apply

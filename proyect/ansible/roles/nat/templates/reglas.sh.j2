@@ -1,0 +1,2 @@
+# SNAT
+iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o ens3 -j MASQUERADE

@@ -2,17 +2,19 @@ network:
   version: 2
   ethernets:
     ens3:
-      dhcp4: true
+      dhcp4: false
     ens4:
       addresses:
       - "192.168.201.4/24"
       dhcp4: false
     ens5:
       addresses:
-        - 10.0.0.3/24
-      routes:
-        - to: default
-          via: 10.0.0.1
+      - "10.0.0.3/24"
       nameservers:
-        addresses: [10.0.0.1,8.8.8.8]
+        addresses:
+        - 10.0.0.1
+        - 8.8.8.8
       dhcp4: false
+      routes:
+      - to: "default"
+        via: "10.0.0.1"
