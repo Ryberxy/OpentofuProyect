@@ -1,0 +1,34 @@
+services:
+  db:
+    image: mariadb:10.6
+    container_name: mariadb10.6
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: wpdb
+      MYSQL_USER: wpuser
+      MYSQL_PASSWORD: wppass
+    volumes:
+      - docker_mariadb_data:/var/lib/mysql
+    restart: unless-stopped
+
+  wordpress:
+    image: wordpress:latest
+    container_name: wordpress
+    depends_on:
+      - db
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: wpuser
+      WORDPRESS_DB_PASSWORD: wppass
+      WORDPRESS_DB_NAME: wpdb
+    volumes:
+      - docker_wordpress_data:/var/www/html
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+
+volumes:
+ docker_mariadb_data:
+    external: true
+ docker_wordpress_data:
+    external: true

@@ -1,0 +1,94 @@
+#Activar proxys y crear volumenes antes
+- name: Instalar docker.io y docker-compose
+  apt:
+    name:
+      - docker.io
+      - docker-compose
+    state: present
+    update_cache: yes
+
+- name: Crear directorio /opt/wordpress
+  file:
+    path: /opt/wordpress
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: copiar el docker-compose
+  template:
+    src: docker-compose.yaml.j2
+    dest: /opt/wordpress/docker-compose.yaml
+    owner: root
+    group: root
+
+- name: Copiar volumen docker para mariadb
+  copy:
+    src: files/docker_mariadb_data.tar.gz
+    dest: /opt/wordpress/docker_mariadb_data.tar.gz
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Extraer volumen de mariadb
+  unarchive:
+    src: /opt/wordpress/docker_mariadb_data.tar.gz
+    dest: /var/lib/docker/volumes
+    remote_src: yes
+    owner: root
+    group: root
+
+- name: Borrar tar de MariaDB después de extraer
+  file:
+    path: /opt/wordpress/docker_mariadb_data.tar.gz
+    state: absent
+
+- name: Copiar volumen docker para wordpress
+  copy: 
+    src: files/docker_wordpress_data.tar.gz
+    dest: /opt/wordpress/docker_wordpress_data.tar.gz
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Extraer volumen de wordpress
+  unarchive: 
+    src: /opt/wordpress/docker_wordpress_data.tar.gz
+    dest: /var/lib/docker/volumes
+    remote_src: yes
+    owner: root
+    group: root
+
+- name: Borrar tar de Wordpress después de extraer
+  file:
+    path: /opt/wordpress/docker_wordpress_data.tar.gz
+    state: absent
+
+
+- name: Crear volumen mariadb
+  docker_volume:
+    name: docker_mariadb_data
+    state: present
+
+- name: Crear volumen wordpress
+  docker_volume:
+    name: docker_wordpress_data
+    state: present
+
+- name: Levantar WordPress y MariaDB con Docker Compose v2
+  community.docker.docker_compose_v2:
+    project_src: /opt/wordpress
+    state: present
+    recreate: auto
+    remove_orphans: yes
+    pull: missing
+
+- name: Configuración de virtualhost
+  template: 
+    src: etc/apache2/vhost.j2
+    dest: /etc/apache2/sites-available/{{item["name"]}}.conf
+    owner: root
+    group: root
+  with_items:
+    - "{{virtualhosts}}"
+  notify: restart apache2

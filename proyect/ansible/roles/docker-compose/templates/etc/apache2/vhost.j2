@@ -1,0 +1,38 @@
+<VirtualHost *:80>
+        ServerName www.example.org
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/example
+
+        <Directory /var/www/example>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+        </Directory>
+
+        # Proxy hacia PHP-FPM remoto 
+        <FilesMatch "\.php$">
+         SetHandler "proxy:fcgi://10.0.0.3:9000"
+        </FilesMatch>   
+
+        # Alias para phpMyAdmin
+        Alias /phpmyadmin /usr/share/phpmyadmin
+
+        <Directory /usr/share/phpmyadmin>
+        Options FollowSymLinks
+        DirectoryIndex index.php
+        Require all granted
+        </Directory>
+
+        ErrorLog ${APACHE_LOG_DIR}/error_example.log
+        CustomLog ${APACHE_LOG_DIR}/acceses_example.log combined
+
+</VirtualHost>
+
+<VirtualHost *:80>
+    	ServerName wordpress.example.org
+
+	ProxyPreserveHost On
+    	ProxyPass "/" "http://127.0.0.1:8080/"
+    	ProxyPassReverse "/" "http://127.0.0.1:8080/"
+
+</VirtualHost>

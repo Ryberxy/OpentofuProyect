@@ -16,6 +16,7 @@ mods_enabled:
   - rewrite
   - proxy_fcgi
   - setenvif
+  - proxy_http
 
 # URL del repositorio
 guestbook_repo_url: "https://github.com/josedom24/guestbook_php.git"

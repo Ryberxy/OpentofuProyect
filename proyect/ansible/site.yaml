@@ -13,6 +13,7 @@
   roles:
    - role: apache2
    - role: phpmyadmin
+   - role: docker-compose
 
 - hosts: servidores_bd
   become: true
