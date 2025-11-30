@@ -73,3 +73,25 @@ mariadb:
 
 sv_aplicaciones:
 <img width="1284" height="666" alt="imagen" src="https://github.com/user-attachments/assets/42d816ad-eb94-4075-b305-40ffb73881e5" />
+
+### Wordpress con docker compose en Mariadb10.6
+Antes de nada he realizado una instalación manual de wordpress con mariadb y he copiado los volúmenes de docker montados tras la instalación para guardar la configuración de wordpress y mariadb y los he metido en el directorio de ansible comprimidos para que cuando se monte el escenario esté wordpress instalado y funcione correctamente.
+
+- Creación del rol docker-compose
+- Creación de templates en docker-compose y hemos copiado el virtualhost del rol apache, al cual he añadido una sección de proxy inverso para poder acceder al wordpress del contenedor docker.
+- Adición del módulo proxy_http en el group vars en los módulos de apache2.
+- El rol pertenecerá al servidor apache2
+- En el rol he utilizado un módulo de la comunidad de docker, ya actualizada a la versión 2, para garantizar la idempotencia sin tener que utilizar command para levantar el escenario con docker-compose.
+- Log en wordpress.example.org/wp-admin con el usuario: admin y contraseña: admin.
+
+Hemos realizado esto para poder tener wordpress accesible siendo lanzado desde un contenedor docker que almacena los datos en otro contenedor docker de mariadb, buscando que la instalación de wordpress ya esté realizada y así consigamos nuestro objetivo de forma automática e idempotente.
+
+Funcionamiento:
+
+wordpress.example.org:
+<img width="1919" height="986" alt="imagen" src="https://github.com/user-attachments/assets/4e705301-70fc-45d9-b712-4a5209e785c1" />
+
+wordpress.example.org/wp-admin:
+<img width="1919" height="1118" alt="imagen" src="https://github.com/user-attachments/assets/e3c06da4-45dc-4652-916a-e1c8677ed687" />
+
+
